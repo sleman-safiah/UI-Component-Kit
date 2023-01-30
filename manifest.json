@@ -1,0 +1,10 @@
+{
+  "name": "stylor",
+  "id": "1201269652729830351",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "ui": "ui.html"
+}
