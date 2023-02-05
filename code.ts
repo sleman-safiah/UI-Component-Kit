@@ -41,6 +41,13 @@ figma.ui.onmessage = async ({
       b.name = "MUI-Button";
       b.appendChild(group[0]);
       b.appendChild(group[1]);
+    } else if (value.includes("input")) {
+      let b = figma.createComponent();
+      let group = getInputComponent(parseInt(value.split("-")[1]) - 1);
+      b.resize(180, 50);
+      b.name = "MUI-INPUT";
+      b.appendChild(group[0]);
+      b.appendChild(group[1]);
     } else {
       figma.notify("Coming Soon ...");
     }
@@ -132,4 +139,53 @@ function clone(val: any) {
 }
 interface Group {
   [index: number]: { 0: RectangleNode; 1: TextNode };
+}
+
+function getInputComponent(variant: number) {
+  const input = figma.createRectangle();
+  const text = figma.createText();
+
+  text.fontSize = 16;
+  text.x = 14;
+  text.y = 14;
+  text.fills = [{ type: "SOLID", color: { r: 0.5, g: 0.5, b: 0.5 } }];
+  input.resize(180, 50);
+  if (variant === 0) {
+    text.characters = "Outlined";
+    const stroke: SolidPaint = {
+      type: "SOLID",
+      color: { r: 0.7, g: 0.7, b: 0.7 },
+    } as SolidPaint;
+    input.strokes = [stroke];
+    input.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, opacity: 0 }];
+    input.cornerRadius = 5;
+  } else if (variant === 1) {
+    text.characters = "Filled";
+    const stroke: SolidPaint = {
+      type: "SOLID",
+      color: { r: 0.3, g: 0.3, b: 0.3 },
+    } as SolidPaint;
+    input.strokes = [stroke];
+    input.strokeWeight = 0;
+    input.strokeBottomWeight = 1;
+    input.topLeftRadius = 3;
+    input.topRightRadius = 3;
+    text.fills = [{ type: "SOLID", color: { r: 0.4, g: 0.4, b: 0.4 } }];
+    input.fills = [{ type: "SOLID", color: { r: 0.9, g: 0.9, b: 0.9 } }];
+  } else if (variant === 2) {
+    text.characters = "Standard";
+    text.y = 21;
+    const stroke: SolidPaint = {
+      type: "SOLID",
+      color: { r: 0.3, g: 0.3, b: 0.3 },
+    } as SolidPaint;
+    input.strokes = [stroke];
+    input.strokeWeight = 0;
+    input.strokeBottomWeight = 1;
+    input.topLeftRadius = 3;
+    input.topRightRadius = 3;
+    text.fills = [{ type: "SOLID", color: { r: 0.4, g: 0.4, b: 0.4 } }];
+    input.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, opacity: 0 }];
+  }
+  return { 0: input, 1: text };
 }
